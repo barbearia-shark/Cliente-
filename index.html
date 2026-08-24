@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Barbearia Shark</title>
+    <title>Barbearia Shark - Área do Barbeiro</title>
     <link rel="icon" href="favicon.ico" type="image/x-icon">
     <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -791,7 +791,7 @@
             color: var(--success);
         }
 
-        
+
 
         .footer {
             background: rgba(10, 22, 40, 0.95);
@@ -1642,6 +1642,397 @@
                 opacity: 0.6;
             }
         }
+
+        /* ===== ADMIN POR DIA ===== */
+        .days-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+            gap: 20px;
+            margin-bottom: 40px;
+        }
+
+        .day-card {
+            background: var(--bg-card);
+            backdrop-filter: blur(10px);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            overflow: hidden;
+            transition: all 0.3s;
+        }
+
+        .day-card:hover {
+            border-color: var(--border-hover);
+        }
+
+        .day-header {
+            background: var(--bg-card-solid);
+            padding: 16px 20px;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .day-title {
+            font-size: 14px;
+            font-weight: 800;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            color: var(--accent);
+        }
+
+        .day-count {
+            font-size: 12px;
+            color: var(--text-secondary);
+            background: var(--bg-dark);
+            padding: 4px 12px;
+            border-radius: 20px;
+        }
+
+        .day-appointments {
+            padding: 0;
+            max-height: 500px;
+            overflow-y: auto;
+        }
+
+        .day-appointment-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 14px 20px;
+            border-bottom: 1px solid var(--border);
+            transition: all 0.2s;
+            gap: 12px;
+        }
+
+        .day-appointment-item:last-child {
+            border-bottom: none;
+        }
+
+        .day-appointment-item:hover {
+            background: rgba(79, 195, 247, 0.03);
+        }
+
+        .day-appointment-item.done {
+            opacity: 0.55;
+            background: rgba(74, 222, 128, 0.05);
+        }
+
+        .day-appointment-item.done .app-client-name {
+            text-decoration: line-through;
+            color: var(--success);
+        }
+
+        .app-info {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .app-time {
+            font-size: 13px;
+            color: var(--accent);
+            font-weight: 700;
+            margin-bottom: 2px;
+        }
+
+        .app-client-name {
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 2px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .app-services {
+            font-size: 12px;
+            color: var(--text-secondary);
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .app-phone {
+            font-size: 11px;
+            color: var(--text-secondary);
+            margin-top: 2px;
+        }
+
+        .app-price {
+            color: var(--accent);
+            font-weight: 700;
+            font-size: 14px;
+            white-space: nowrap;
+        }
+
+        .app-actions {
+            display: flex;
+            gap: 8px;
+        }
+
+        .btn-done-small {
+            background: transparent;
+            border: 1px solid var(--border);
+            color: var(--text-secondary);
+            padding: 6px 14px;
+            border-radius: 6px;
+            font-size: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            white-space: nowrap;
+        }
+
+        .btn-done-small:hover {
+            border-color: var(--success);
+            color: var(--success);
+        }
+
+        .btn-done-small.completed {
+            background: rgba(74, 222, 128, 0.15);
+            border-color: var(--success);
+            color: var(--success);
+        }
+
+        .day-total-bar {
+            padding: 12px 20px;
+            border-top: 1px solid var(--border);
+            display: flex;
+            justify-content: space-between;
+            font-size: 13px;
+            background: var(--bg-card-solid);
+        }
+
+        .day-total-label {
+            color: var(--text-secondary);
+        }
+
+        .day-total-value {
+            color: var(--accent);
+            font-weight: 700;
+        }
+
+        .day-total-done {
+            color: var(--success);
+            font-weight: 600;
+        }
+
+        /* ===== TOTAIS ===== */
+        .totals-bar {
+            background: var(--bg-card);
+            backdrop-filter: blur(10px);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 24px;
+            margin-bottom: 32px;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+        }
+
+        .total-box {
+            text-align: center;
+            padding: 20px;
+            background: var(--bg-card-solid);
+            border-radius: 12px;
+            border: 1px solid var(--border);
+        }
+
+        .total-label {
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            color: var(--text-secondary);
+            margin-bottom: 10px;
+        }
+
+        .total-value {
+            font-size: 28px;
+            font-weight: 800;
+            color: var(--accent);
+        }
+
+        .total-value.success {
+            color: var(--success);
+        }
+
+        .total-value.danger {
+            color: var(--danger);
+        }
+
+        .total-sublabel {
+            font-size: 12px;
+            color: var(--text-secondary);
+            margin-top: 6px;
+        }
+
+        .day-empty {
+            text-align: center;
+            padding: 40px 20px;
+            color: var(--text-secondary);
+            font-size: 14px;
+        }
+
+        .history-box {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 24px;
+            margin-bottom: 32px;
+        }
+
+        .history-month {
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            padding: 16px;
+            margin-top: 12px;
+        }
+
+        .history-month-header,
+        .history-summary-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .history-month-header {
+            color: var(--accent);
+            font-weight: 700;
+            text-transform: uppercase;
+            font-size: 13px;
+        }
+
+        .history-summary-row {
+            color: var(--text-secondary);
+            font-size: 13px;
+            padding-top: 8px;
+        }
+
+        .history-summary-row strong {
+            color: var(--text-primary);
+        }
+
+        .history-items {
+            margin-top: 14px;
+            border-top: 1px solid var(--border);
+        }
+
+        .history-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 12px;
+            padding: 10px 0;
+            border-bottom: 1px solid var(--border);
+            font-size: 12px;
+        }
+
+        .history-item:last-child {
+            border-bottom: none;
+        }
+
+        .history-item-info {
+            min-width: 0;
+        }
+
+        .history-item-name {
+            color: var(--text-primary);
+            font-weight: 600;
+        }
+
+        .history-item-detail {
+            color: var(--text-secondary);
+            margin-top: 3px;
+        }
+
+        .btn-delete-small {
+            background: transparent;
+            border: 1px solid rgba(248, 113, 113, 0.5);
+            color: #f87171;
+            padding: 6px 10px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 11px;
+            white-space: nowrap;
+        }
+
+        .btn-delete-small:hover {
+            background: rgba(248, 113, 113, 0.12);
+        }
+
+        /* ===== RESPONSIVO ADMIN ===== */
+        @media (max-width: 768px) {
+            .days-container {
+                grid-template-columns: 1fr;
+            }
+
+            .day-card {
+                border-radius: 12px;
+            }
+
+            .day-appointment-item {
+                flex-wrap: wrap;
+                gap: 8px;
+                padding: 12px 16px;
+            }
+
+            .app-price {
+                margin: 0;
+                width: 100%;
+                text-align: left;
+                order: 3;
+            }
+
+            .app-actions {
+                width: 100%;
+                justify-content: flex-end;
+                order: 4;
+            }
+
+            .app-info {
+                order: 1;
+                width: 100%;
+            }
+
+            .totals-bar {
+                grid-template-columns: 1fr;
+                padding: 16px;
+                gap: 12px;
+            }
+
+            .total-box {
+                padding: 16px;
+            }
+
+            .total-value {
+                font-size: 24px;
+            }
+
+            .admin-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 16px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .totals-bar {
+                grid-template-columns: 1fr;
+            }
+
+            .day-header {
+                padding: 12px 16px;
+            }
+
+            .day-total-bar {
+                padding: 10px 16px;
+                flex-direction: column;
+                gap: 4px;
+            }
+        }
     </style>
     <base target="_blank">
 
@@ -1683,302 +2074,85 @@
     </script>
     <base target="_blank">
     <base target="_blank">
+    <base target="_blank">
 </head>
+
 <body>
-<div class="bg-wrapper"></div>
-        <nav class="navbar">
-        <a href="https://barbearia-shark.github.io/Barbeiro-/" class="logo" style="text-decoration: none;">
-            <div class="logo-icon" style="background: transparent; overflow: visible;">
-                <img src="logo_shark.png" alt="Barbearia Shark" style="width: 40px; height: 40px; object-fit: contain; border-radius: 50%;">
+    <div class="bg-wrapper"></div>
+
+    <div class="admin-panel" id="admin-panel">
+        <div class="admin-header">
+            <div>
+                <div class="section-label">Área Restrita</div>
+                <h1>AGENDAMENTOS</h1>
             </div>
-            <div>BARBEARIA <span>SHARK</span></div>
-        </a>
-        <ul class="nav-links">
-            <li><a href="#inicio" onclick="scrollToSection('inicio'); return false;">Início</a></li>
-            <li><a href="#servicos" onclick="scrollToSection('servicos'); return false;">Serviços</a></li>
-            <li><a href="#equipe" onclick="scrollToSection('equipe'); return false;">Equipe</a></li>
-            <li><a href="#agendar" onclick="scrollToSection('agendar'); return false;">Agendar</a></li>
-            <li><a href="#meus-agendamentos" onclick="scrollToSection('meus-agendamentos'); return false;">Meus Agendamentos</a></li>
-        </ul>
-    </nav>
-<div id="main-site">
-        <section class="hero" id="inicio">
-            <div class="hero-content">
-                <div class="hero-label">Barbearia Shark</div>
-                <h1>SEU CORTE,<br>NO SEU <span>HORÁRIO.</span></h1>
-                <p>Escolha o serviço, o barbeiro e o horário direto no calendário abaixo. Sem espera, sem ligação — sua
-                    vez marcada em menos de um minuto.</p>
-                <div class="hero-buttons">
-                    <button class="btn-primary" onclick="scrollToSection('agendar')">Ver Horários Disponíveis</button>
-                    <button class="btn-outline" onclick="scrollToSection('servicos')">Ver Tabela de Preços</button>
+            <div class="admin-actions">
+                <button class="btn-outline" onclick="refreshAppointments()">Atualizar</button>
+                <button class="btn-primary" onclick="logout()">Sair</button>
+            </div>
+        </div>
+
+        <!-- CONFIGURAÇÕES -->
+        <div class="config-grid">
+            <div class="config-box">
+                <h3>Notificação por WhatsApp</h3>
+                <p>Quando um cliente faz agendamento, uma mensagem é enviada automaticamente para o WhatsApp do
+                    barbeiro.</p>
+                <p><span class="highlight">Status:</span> <span id="whatsapp-status">Número não configurado</span></p>
+                <div class="form-group" style="margin-top: 12px;">
+                    <label style="display: flex; align-items: center; gap: 10px; font-size: 13px;">
+                        <input type="checkbox" id="whatsapp-enabled-checkbox" onchange="toggleWhatsAppEnabled(this)">
+                        Enviar notificação por WhatsApp
+                    </label>
                 </div>
+                <a href="#" class="btn-whatsapp" id="whatsapp-test-btn" style="margin-top: 12px; display: none;"
+                    target="_blank">Testar WhatsApp</a>
             </div>
-        </section>
-        <section id="servicos">
-            <div class="section-header">
-                <div class="section-label">Tabela de Preços</div>
-                <h2 class="section-title">NOSSOS SERVIÇOS</h2>
+        </div>
+
+        <!-- DISPONIBILIDADE SEMANAL -->
+        <div class="availability-box">
+            <h3>Disponibilidade Semanal</h3>
+            <p class="availability-description">Clique nos horários para ativar/desativar. Os selecionados ficam azuis e
+                serão exibidos aos clientes.</p>
+            <div id="availability-days"></div>
+            <button class="btn-primary" onclick="saveAvailability()" style="margin-top: 16px;">Salvar
+                Disponibilidade</button>
+        </div>
+
+        <div class="history-box">
+            <div class="section-label">Histórico financeiro</div>
+            <h2 class="section-title">FEITOS E PENDENTES POR MÊS</h2>
+            <div id="history-container">
+                <div class="day-empty">Carregando histórico...</div>
             </div>
-            <div class="services-container">
-                <div class="service-category">
-                    <div class="service-category-title">Barba</div>
-                    <div class="service-item">
-                        <div class="service-info">
-                            <h4>Barba</h4>
-                            <p>Toalha quente e acabamento na navalha</p>
-                        </div>
-                        <div class="service-price">R$ 7,00</div>
-                    </div>
-                </div>
-                <div class="service-category">
-                    <div class="service-category-title">Cortes</div>
-                    <div class="service-item">
-                        <div class="service-info">
-                            <h4>Corte</h4>
-                            <p>Corte clássico com máquina e tesoura</p>
-                        </div>
-                        <div class="service-price">R$ 12,00</div>
-                    </div>
-                    <div class="service-item">
-                        <div class="service-info">
-                            <h4>Corte a Domicílio</h4>
-                            <p>Levamos o corte até você</p>
-                        </div>
-                        <div class="service-price">R$ 17,00</div>
-                    </div>
-                </div>
-                <div class="service-category">
-                    <div class="service-category-title">Acabamentos</div>
-                    <div class="service-item">
-                        <div class="service-info">
-                            <h4>Sobrancelha</h4>
-                            <p>Design e alinhamento na navalha</p>
-                        </div>
-                        <div class="service-price">R$ 3,00</div>
-                    </div>
-                    <div class="service-item">
-                        <div class="service-info">
-                            <h4>Pezinho</h4>
-                            <p>Acabamento de contorno e nuca</p>
-                        </div>
-                        <div class="service-price">R$ 5,00</div>
-                    </div>
-                </div>
-                <div class="service-category">
-                    <div class="service-category-title">Tratamentos</div>
-                    <div class="service-item">
-                        <div class="service-info">
-                            <h4>Hidratação Capilar</h4>
-                            <p>Tratamento para fortalecer e dar brilho ao cabelo</p>
-                        </div>
-                        <div class="service-price">R$ 7,00</div>
-                    </div>
-                    <div class="service-item">
-                        <div class="service-info">
-                            <h4>Progressiva (sem formol)</h4>
-                            <p>Alisamento natural e saudável</p>
-                        </div>
-                        <div class="service-price">R$ 30,00</div>
-                    </div>
-                </div>
-            </div>
-        </section>
-        <section id="equipe">
-            <div class="section-header">
-                <div class="section-label">Nossa Equipe</div>
-                <h2 class="section-title">QUEM VAI TE ATENDER</h2>
-            </div>
-            <div class="team-grid">
-                <div class="team-card">
-                    <div class="team-avatar">
-                        <img class="team-photo" src="hariel.png" alt="Foto do barbeiro Haryew">
-                    </div>
-                    <div class="team-name">HARYEW</div>
-                    <div class="team-role">Barbeiro</div>
-                </div>
-            </div>
-        </section>
-        <section id="agendar">
-            <div class="section-header">
-                <div class="section-label">Agendamento Online</div>
-                <h2 class="section-title">MARQUE SEU HORÁRIO</h2>
-                <p style="color: var(--text-secondary); font-size: 14px; margin-top: 8px;">Segunda a sábado, das 09h às
-                    19h. Nos domingos, atendimento na comunidade da Caroba.</p>
-            </div>
-            <div class="booking-container">
-                <div class="booking-grid">
-                    <div>
-                        <div class="booking-step">
-                            <div class="step-number">1. ESCOLHA DATA</div>
-                            <div class="calendar-box">
-                                <div class="calendar-header">
-                                    <button onclick="changeMonth(-1)">‹</button>
-                                    <span id="calendar-month">Agosto 2026</span>
-                                    <button onclick="changeMonth(1)">›</button>
-                                </div>
-                                <div class="calendar-weekdays">
-                                    <div>Dom</div>
-                                    <div>Seg</div>
-                                    <div>Ter</div>
-                                    <div>Qua</div>
-                                    <div>Qui</div>
-                                    <div>Sex</div>
-                                    <div>Sáb</div>
-                                </div>
-                                <div class="calendar-days" id="calendar-days"></div>
-                            </div>
-                        </div>
-                        <div class="booking-step">
-                            <div class="step-number">2. ESCOLHA HORÁRIO</div>
-                            <div class="time-grid" id="time-grid"></div>
-                        </div>
-                    </div>
-                    <div>
-                        <div class="booking-step">
-                            <div class="step-number">3. ESCOLHA OS SERVIÇOS</div>
-                            <p style="font-size: 12px; color: var(--text-secondary); margin-bottom: 12px;">Você pode
-                                escolher mais de um serviço.</p>
-                            <div id="services-list">
-                                <div class="service-checkbox" data-service="Barba" data-price="7"
-                                    onclick="toggleService(this)">
-                                    <div class="service-checkbox-left">
-                                        <div class="checkbox-box"></div><span class="service-checkbox-name">Barba</span>
-                                    </div>
-                                    <span class="service-checkbox-price">R$ 7,00</span>
-                                </div>
-                                <div class="service-checkbox" data-service="Corte" data-price="12"
-                                    onclick="toggleService(this)">
-                                    <div class="service-checkbox-left">
-                                        <div class="checkbox-box"></div><span class="service-checkbox-name">Corte</span>
-                                    </div>
-                                    <span class="service-checkbox-price">R$ 12,00</span>
-                                </div>
-                                <div class="service-checkbox" data-service="Corte a Domicílio" data-price="17"
-                                    onclick="toggleService(this)">
-                                    <div class="service-checkbox-left">
-                                        <div class="checkbox-box"></div><span class="service-checkbox-name">Corte a
-                                            Domicílio</span>
-                                    </div>
-                                    <span class="service-checkbox-price">R$ 17,00</span>
-                                </div>
-                                <div class="service-checkbox" data-service="Sobrancelha" data-price="3"
-                                    onclick="toggleService(this)">
-                                    <div class="service-checkbox-left">
-                                        <div class="checkbox-box"></div><span
-                                            class="service-checkbox-name">Sobrancelha</span>
-                                    </div>
-                                    <span class="service-checkbox-price">R$ 3,00</span>
-                                </div>
-                                <div class="service-checkbox" data-service="Pezinho" data-price="5"
-                                    onclick="toggleService(this)">
-                                    <div class="service-checkbox-left">
-                                        <div class="checkbox-box"></div><span
-                                            class="service-checkbox-name">Pezinho</span>
-                                    </div>
-                                    <span class="service-checkbox-price">R$ 5,00</span>
-                                </div>
-                                <div class="service-checkbox" data-service="Hidratação Capilar" data-price="7"
-                                    onclick="toggleService(this)">
-                                    <div class="service-checkbox-left">
-                                        <div class="checkbox-box"></div><span class="service-checkbox-name">Hidratação
-                                            Capilar</span>
-                                    </div>
-                                    <span class="service-checkbox-price">R$ 7,00</span>
-                                </div>
-                                <div class="service-checkbox" data-service="Progressiva (sem formol)" data-price="30"
-                                    onclick="toggleService(this)">
-                                    <div class="service-checkbox-left">
-                                        <div class="checkbox-box"></div><span class="service-checkbox-name">Progressiva
-                                            (sem formol)</span>
-                                    </div>
-                                    <span class="service-checkbox-price">R$ 30,00</span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="booking-step">
-                            <div class="step-number">4. SEUS DADOS</div>
-                            <div class="form-group">
-                                <label>Nome completo</label>
-                                <input type="text" id="client-name" placeholder="Seu nome">
-                            </div>
-                            <div class="form-group">
-                                <label>WhatsApp / telefone</label>
-                                <input type="tel" id="client-phone" placeholder="(00) 00000-0000"
-                                    oninput="formatPhone(this)">
-                            </div>
-                            <div class="summary-box">
-                                <div class="summary-row"><span class="summary-label">Serviços</span><span
-                                        class="summary-value" id="summary-count">0</span></div>
-                                <div class="summary-row"><span class="summary-label" id="summary-services">—</span><span
-                                        class="summary-value" id="summary-services-price">—</span></div>
-                                <div class="summary-row"><span class="summary-label">Horário</span><span
-                                        class="summary-value" id="summary-time">—</span></div>
-                                <div class="summary-row divider"><span class="summary-label">Total</span><span
-                                        class="summary-total" id="summary-total">R$ 0,00</span></div>
-                            </div>
-                            <button class="btn-confirm" id="btn-confirm" onclick="confirmBooking()" disabled>CONFIRMAR
-                                AGENDAMENTO</button>
-                        </div>
-                        <div class="booking-step">
-                            <div class="step-number">OPÇÕES FINAIS</div>
-                            <div class="summary-box"
-                                style="margin-top: 0; color: var(--text-secondary); font-size: 14px;">
-                                <p>Depois de confirmar, você poderá copiar a chave Pix do barbeiro.</p>
-                            </div>
-                            <div class="action-buttons" id="pix-actions" style="display: none; margin-top: 12px;">
-                                <button class="action-button" type="button" onclick="copyBarberPix()">Copiar chave
-                                    Pix</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+        </div>
+
+        <!-- AGENDAMENTOS POR DIA -->
+        <div class="section-header" style="margin-bottom: 24px;">
+            <div class="section-label">Agendamentos</div>
+            <h2 class="section-title">PRÓXIMOS DIAS</h2>
+        </div>
+
+        <div class="days-container" id="days-container">
+            <div class="day-empty">Carregando agendamentos...</div>
+        </div>
     </div>
-    </section>
-    <section id="meus-agendamentos">
-        <div class="section-header">
-            <div class="section-label">Consulta</div>
-            <h2 class="section-title">MEUS AGENDAMENTOS</h2>
-            <p style="color: var(--text-secondary); font-size: 14px; margin-top: 8px;">Digite seu WhatsApp para ver seus
-                agendamentos e o status de cada um.</p>
-        </div>
-        <div class="booking-container" style="max-width: 600px; margin: 0 auto;">
-            <div class="form-group">
-                <label>WhatsApp / telefone</label>
-                <input type="tel" id="client-query-phone" placeholder="(00) 00000-0000"
-                    oninput="formatPhoneQuery(this)">
-            </div>
-            <button class="btn-primary" onclick="consultarAgendamentosCliente()" style="width: 100%;">Consultar
-                Agendamentos</button>
-            <div id="client-appointments-result" style="margin-top: 24px;"></div>
-        </div>
-    </section>
-    <footer class="footer">
-        <div class="footer-grid">
-            <div class="footer-brand">
-                <h3>BARBEARIA SHARK</h3>
-                <p>Barbearia de bairro com técnica clássica e atendimento por hora marcada.</p>
-            </div>
-            <div class="footer-info">
-                <div class="footer-info-item"><span></span><span>Rua Alício Soares Pereira, 130 — Santo Antônio do
-                        Retiro</span></div>
-                <div class="footer-info-item"><span></span><span><strong>@barbearia__shark</strong></span></div>
-            </div>
-            <div class="footer-social">
-                <div class="footer-info-item"><span></span><span>Seg–Sáb, 09h às 19h.<br>Domingos, na comunidade
-                        da Caroba.</span></div>
+    <div class="modal-overlay" id="login-modal">
+        <div class="modal">
+            <h2>Área do Barbeiro</h2>
+            <p>Digite a senha de acesso para visualizar os agendamentos.</p>
+            <div class="error-msg" id="login-error">Senha incorreta. Tente novamente.</div>
+            <input type="password" id="login-password" placeholder="Senha" autocomplete="new-password" readonly
+                onfocus="this.removeAttribute('readonly')" onkeypress="if(event.key==='Enter')checkLogin()">
+            <div class="modal-buttons">
+                <button type="button" class="modal-btn-secondary" onclick="closeLoginModal()">Cancelar</button>
+                <button type="button" class="modal-btn-primary" onclick="checkLogin()">Entrar</button>
             </div>
         </div>
-                <div class="footer-bottom">
-            <span>© 2026 Barbearia Shark. Todos os direitos reservados.</span>
-        </div>
-        </div>
-    </footer>
     </div>
 
-    
-    </div>
-<div class="toast" id="toast">
+    <div class="toast" id="toast">
         <div class="toast-icon"></div>
         <div class="toast-content">
             <h4 id="toast-title">Sucesso!</h4>
@@ -2083,7 +2257,16 @@
             }
         }
 
-        
+        async function deleteCompletedAppointmentFS(id) {
+            if (!isFirebaseReady()) return;
+            try {
+                await window._deleteDoc(window._doc(window._db, 'completedAppointments', String(id)));
+            } catch (e) {
+                console.warn('Erro ao excluir do histórico:', e);
+            }
+        }
+
+
 
         async function getAvailabilityFS() {
             if (!isFirebaseReady()) return getAvailabilityLS();
@@ -2226,7 +2409,9 @@
         }
 
         function isCompletedId(id) {
-            return _locallyCompletedIds.includes(id) || _completedIdsFromFirebase.includes(id);
+            if (_locallyCompletedIds.includes(id) || _completedIdsFromFirebase.includes(id)) return true;
+            const appointment = _appointmentsCache.find(app => app.id === id);
+            return appointment && String(appointment.status).trim() === 'Concluído';
         }
 
         // ========== FILA DE PROCESSAMENTO ==========
@@ -2276,29 +2461,26 @@
                 whatsappEnabled = config.whatsappEnabled;
             }
             await getAppointmentsFS();
-            renderCalendar();
-            renderTimeSlots();
+
+
             renderAvailabilityEditor();
-            updateSummary();
+
             updateConfigStatus();
-            
-            const clientAppointmentsList = document.getElementById('client-appointments-list');
-            if (clientAppointmentsList) {
-                clientAppointmentsList.addEventListener('click', handleClientAppointmentsClick);
-            }
+
+
             if (isFirebaseReady()) {
                 listenAppointments(() => {
                     renderAdminTable();
-                    renderTimeSlots();
+
                 });
                 listenAvailability(() => {
-                    renderTimeSlots();
+
                     renderAvailabilityEditor();
                 });
                 listenCompletedAppointments(() => {
                     renderAdminTable();
-                    renderTimeSlots();
-                    updateSummary();
+
+
                 });
                 _firebaseInitialized = true;
             }
@@ -2312,10 +2494,6 @@
                 setTimeout(() => { if (!_firebaseInitialized) initApp(); }, 2000);
             }
         });
-
-        function scrollToSection(id) {
-            document.getElementById(id).scrollIntoView({ behavior: 'smooth' });
-        }
 
         function renderCalendar() {
             const year = currentDate.getFullYear();
@@ -2409,20 +2587,20 @@
         }
 
         function isAppointmentActive(appointment) {
-    if (!appointment || !appointment.status) return false;
-    // Se o ID está na lista de concluídos (local ou Firebase), considera inativo
-    if (isCompletedId(appointment.id)) return false;
-    const status = String(appointment.status).trim();
-    return status !== 'Concluído';
-}
+            if (!appointment || !appointment.status) return false;
+            // Se o ID está na lista de concluídos (local ou Firebase), considera inativo
+            if (isCompletedId(appointment.id)) return false;
+            const status = String(appointment.status).trim();
+            return status !== 'Concluído';
+        }
 
         function getBookedTimesForDate(date) {
-    if (!date) return [];
-    const dateStr = formatDate(date);
-    return _appointmentsCache
-        .filter(a => a.date === dateStr && isAppointmentActive(a))
-        .map(a => a.time);
-}
+            if (!date) return [];
+            const dateStr = formatDate(date);
+            return _appointmentsCache
+                .filter(a => a.date === dateStr && isAppointmentActive(a))
+                .map(a => a.time);
+        }
 
         function getAvailableTimesForDate(date) {
             if (!date) return [];
@@ -2445,6 +2623,7 @@
         }
 
         function updateSummary() {
+            if (!document.getElementById('summary-count')) return;
             const count = selectedServices.length;
             const total = selectedServices.reduce((sum, s) => sum + s.price, 0);
             const servicesNames = selectedServices.map(s => s.name).join(', ') || '—';
@@ -2460,11 +2639,74 @@
         }
 
         async function deleteAppointment(id) {
+            if (!window.confirm('Excluir este agendamento? Ele será removido das somas do mês.')) return;
             await deleteAppointmentFS(id);
+            await deleteCompletedAppointmentFS(id);
+            removeLocallyCompletedId(id);
+            _completedIdsFromFirebase = _completedIdsFromFirebase.filter(completedId => completedId !== id);
             await getAppointmentsFS();
             renderAdminTable();
+            renderHistory();
             renderTimeSlots();
             showToast('Agendamento excluído', 'O agendamento foi removido com sucesso.');
+        }
+
+        async function markAppointmentDone(id) {
+            const appointment = _appointmentsCache.find(a => a.id === id);
+            if (!appointment) {
+                showToast('Erro', 'Agendamento não encontrado.');
+                return;
+            }
+
+            // Evita clique duplo no mesmo agendamento
+            if (isCompletedId(id)) {
+                showToast('Já concluído', 'Este agendamento já foi marcado como feito.');
+                return;
+            }
+
+            // 1. Adiciona à lista local de concluídos IMEDIATAMENTE
+            addLocallyCompletedId(id);
+
+            // 2. Atualiza o cache local
+            const idx = _appointmentsCache.findIndex(a => a.id === id);
+            if (idx !== -1) {
+                _appointmentsCache[idx].status = 'Concluído';
+            }
+
+            // 3. Re-renderiza tudo na hora — o horário já fica livre
+            renderAdminTable();
+            renderTimeSlots();
+            updateSummary();
+
+            // 4. Coloca na fila para sincronizar com o Firebase em background
+            // Isso permite marcar vários rapidamente sem travar
+            queueCompletion(async () => {
+                try {
+                    // Atualiza status no documento original
+                    await updateAppointmentStatusFS(id, 'Concluído');
+                    // Cria documento na coleção completedAppointments (sincroniza entre dispositivos)
+                    await addCompletedAppointmentFS(id, {
+                        date: appointment.date,
+                        time: appointment.time,
+                        services: appointment.services,
+                        clientName: appointment.name
+                    });
+                    console.log('Sincronizado com Firebase:', id);
+                } catch (e) {
+                    console.warn('Falha ao sincronizar com Firebase:', e);
+                }
+            });
+
+            showToast('Agendamento concluído', 'Este horário ficou disponível para outro cliente.');
+        }
+
+        function checkFormValidity() {
+            const confirmButton = document.getElementById('btn-confirm');
+            if (!confirmButton) return;
+            const name = document.getElementById('client-name').value.trim();
+            const phone = document.getElementById('client-phone').value.trim();
+            const valid = selectedDate && selectedTime && selectedServices.length > 0 && name && phone.length >= 14;
+            confirmButton.disabled = !valid;
         }
 
         function formatPhone(input) {
@@ -2599,6 +2841,47 @@
             showToast('WhatsApp atualizado', whatsappEnabled ? 'Notificações por WhatsApp ativadas.' : 'Notificações por WhatsApp desativadas.');
         }
 
+        async function saveAvailability() {
+            await saveAvailabilityFS(barberAvailability);
+            showToast('Disponibilidade salva', 'Os horários do barbeiro foram atualizados com sucesso.');
+            renderTimeSlots();
+        }
+
+        function renderAvailabilityEditor() {
+            const container = document.getElementById('availability-days');
+            container.innerHTML = '';
+            weekDayKeys.forEach(key => {
+                const dayName = key === 'domingo' ? 'Domingo' : key === 'segunda' ? 'Segunda' : key === 'terca' ? 'Terça' : key === 'quarta' ? 'Quarta' : key === 'quinta' ? 'Quinta' : key === 'sexta' ? 'Sexta' : 'Sábado';
+                const daySection = document.createElement('div');
+                daySection.className = 'availability-day';
+                daySection.innerHTML = '<div class="availability-day-title">' + dayName + '</div>';
+                const timesWrapper = document.createElement('div');
+                timesWrapper.className = 'availability-times';
+                timeSlots.forEach(time => {
+                    const button = document.createElement('div');
+                    button.className = 'availability-time' + (barberAvailability[key] && barberAvailability[key].includes(time) ? ' selected' : '');
+                    button.textContent = time;
+                    button.onclick = function () {
+                        toggleAvailabilityTime(key, time, button);
+                    };
+                    timesWrapper.appendChild(button);
+                });
+                daySection.appendChild(timesWrapper);
+                container.appendChild(daySection);
+            });
+        }
+
+        function toggleAvailabilityTime(dayKey, time, button) {
+            if (!barberAvailability[dayKey]) barberAvailability[dayKey] = [];
+            if (barberAvailability[dayKey].includes(time)) {
+                barberAvailability[dayKey] = barberAvailability[dayKey].filter(t => t !== time);
+                button.classList.remove('selected');
+            } else {
+                barberAvailability[dayKey] = [...barberAvailability[dayKey], time];
+                button.classList.add('selected');
+            }
+        }
+
         function formatDate(date) {
             if (!date) return '';
             const d = String(date.getDate()).padStart(2, '0');
@@ -2606,6 +2889,241 @@
             const y = date.getFullYear();
             return d + '/' + m + '/' + y;
         }
+
+        function openLoginModal() {
+            document.getElementById('login-modal').classList.add('active');
+            document.getElementById('login-password').value = '';
+            document.getElementById('login-error').classList.remove('active');
+            setTimeout(() => document.getElementById('login-password').focus(), 100);
+        }
+
+        function closeLoginModal() {
+            document.getElementById('login-modal').classList.remove('active');
+        }
+
+        function checkLogin() {
+            const password = document.getElementById('login-password').value;
+            if (password === '2765') {
+                closeLoginModal();
+                showAdminPanel();
+            } else {
+                document.getElementById('login-error').classList.add('active');
+                document.getElementById('login-password').value = '';
+            }
+        }
+
+        async function showAdminPanel() {
+            document.getElementById('admin-panel').classList.add('active');
+            document.getElementById('login-modal').classList.remove('active');
+            await getAppointmentsFS();
+            renderAdminTable();
+            updateConfigStatus();
+            renderAvailabilityEditor();
+            if (isFirebaseReady()) {
+                listenAppointments(() => { renderAdminTable(); });
+                listenCompletedAppointments(() => { renderAdminTable(); });
+            }
+        }
+
+        function logout() {
+            window.location.href = 'https://SEU-LINK-DO-CLIENTE-AQUI.com';
+        }
+
+        function updateConfigStatus() {
+            const waStatus = document.getElementById('whatsapp-status');
+            const waTestBtn = document.getElementById('whatsapp-test-btn');
+            const waCheckbox = document.getElementById('whatsapp-enabled-checkbox');
+            if (waCheckbox) waCheckbox.checked = whatsappEnabled;
+
+            if (!whatsappEnabled) {
+                waStatus.textContent = 'WhatsApp desativado pelo barbeiro';
+                waStatus.style.color = '#fbbf24';
+                waTestBtn.style.display = 'none';
+                return;
+            }
+
+            if (BARBER_WHATSAPP && BARBER_WHATSAPP.length >= 12) {
+                waStatus.textContent = 'Configurado (' + BARBER_WHATSAPP + ')';
+                waStatus.style.color = 'var(--success)';
+                waTestBtn.style.display = 'inline-flex';
+                waTestBtn.href = 'https://wa.me/' + BARBER_WHATSAPP + '?text=' + encodeURIComponent('Teste de notificação da Barbearia Shark!');
+            } else {
+                waStatus.textContent = 'Número não configurado';
+                waStatus.style.color = '#fbbf24';
+                waTestBtn.style.display = 'none';
+            }
+        }
+
+
+
+        function getStatusClass(status) {
+            return 'status-' + status.toLowerCase().normalize('NFD').replace(/[^a-z0-9 ]/g, '').replace(/\s+/g, '-');
+        }
+
+        function renderAdminTable() {
+            const container = document.getElementById('days-container');
+            if (!container) return;
+
+            const appointments = _appointmentsCache.filter(app => !isCompletedId(app.id));
+
+            if (appointments.length === 0) {
+                container.innerHTML = '<div class="day-empty">Nenhum agendamento pendente.</div>';
+                renderHistory();
+                return;
+            }
+
+            // Agrupar por data (dia/mês/ano) e ordenar por data mais próxima
+            const groups = {};
+
+            appointments.forEach(app => {
+                if (!groups[app.date]) {
+                    groups[app.date] = [];
+                }
+                groups[app.date].push(app);
+            });
+
+            // Ordenar datas da mais próxima para a mais distante
+            const sortedDates = Object.keys(groups).sort((a, b) => {
+                const partsA = a.split('/').map(Number);
+                const partsB = b.split('/').map(Number);
+                const dateA = new Date(partsA[2], partsA[1] - 1, partsA[0]);
+                const dateB = new Date(partsB[2], partsB[1] - 1, partsB[0]);
+                return dateA - dateB;
+            });
+
+            // Nomes dos dias da semana
+            const weekDays = ['Domingo', 'Segunda-feira', 'Terça-feira', 'Quarta-feira', 'Quinta-feira', 'Sexta-feira', 'Sábado'];
+            const monthNames = ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'];
+
+            let html = '';
+            sortedDates.forEach(dateStr => {
+                const dayApps = groups[dateStr];
+                const parts = dateStr.split('/').map(Number);
+                const dateObj = new Date(parts[2], parts[1] - 1, parts[0]);
+                const dayName = weekDays[dateObj.getDay()];
+                const monthName = monthNames[parts[1] - 1];
+
+                // Ordenar agendamentos do dia por horário
+                dayApps.sort((a, b) => {
+                    const timeA = a.time.split(':').map(Number);
+                    const timeB = b.time.split(':').map(Number);
+                    return (timeA[0] * 60 + timeA[1]) - (timeB[0] * 60 + timeB[1]);
+                });
+
+                let dayTotal = 0;
+
+                dayApps.forEach(app => {
+                    dayTotal += app.total;
+                });
+
+                html += '<div class="day-card">';
+                html += '<div class="day-header">';
+                html += '<div class="day-title">' + dayName + ', ' + parts[0] + ' de ' + monthName + '</div>';
+                html += '<div class="day-count">' + dayApps.length + ' agendamentos</div>';
+                html += '</div>';
+
+                html += '<div class="day-appointments">';
+                dayApps.forEach(app => {
+                    html += '<div class="day-appointment-item">';
+                    html += '<div class="app-info">';
+                    html += '<div class="app-time">' + app.time + '</div>';
+                    html += '<div class="app-client-name">' + app.name + '</div>';
+                    html += '<div class="app-services">' + app.services + '</div>';
+                    html += '<div class="app-phone">' + app.phone + '</div>';
+                    html += '</div>';
+                    html += '<div class="app-price">R$ ' + app.total.toFixed(2).replace('.', ',') + '</div>';
+                    html += '<div class="app-actions">';
+                    html += '<button class="btn-done-small" onclick="markAppointmentDone(\'' + app.id + '\')">Marcar feito</button>';
+                    html += '<button class="btn-delete-small" onclick="deleteAppointment(\'' + app.id + '\')">Excluir</button>';
+                    html += '</div>';
+                    html += '</div>';
+                });
+                html += '</div>';
+
+                // Barra de totais do dia
+                html += '<div class="day-total-bar">';
+                html += '<span class="day-total-label">Total do dia: <span class="day-total-value">R$ ' + dayTotal.toFixed(2).replace('.', ',') + '</span></span>';
+                html += '</div>';
+
+                html += '</div>';
+            });
+
+            container.innerHTML = html;
+            renderHistory();
+        }
+
+        function renderHistory() {
+            const container = document.getElementById('history-container');
+            if (!container) return;
+
+            const months = {};
+            _appointmentsCache.forEach(app => {
+                const parts = String(app.date || '').split('/');
+                if (parts.length !== 3) return;
+                const monthKey = parts[2] + '-' + parts[1];
+                if (!months[monthKey]) months[monthKey] = { year: Number(parts[2]), month: Number(parts[1]), apps: [] };
+                months[monthKey].apps.push(app);
+            });
+
+            const monthNames = ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'];
+            const sortedMonths = Object.values(months).sort((a, b) => b.year - a.year || b.month - a.month);
+            if (sortedMonths.length === 0) {
+                container.innerHTML = '<div class="day-empty">Nenhum registro no histórico.</div>';
+                return;
+            }
+
+            container.innerHTML = sortedMonths.map(group => {
+                const doneApps = group.apps.filter(app => isCompletedId(app.id));
+                const pendingApps = group.apps.filter(app => !isCompletedId(app.id));
+                const doneTotal = doneApps.reduce((sum, app) => sum + Number(app.total || 0), 0);
+                const pendingTotal = pendingApps.reduce((sum, app) => sum + Number(app.total || 0), 0);
+                const items = doneApps.map(app =>
+                    '<div class="history-item"><div class="history-item-info"><div class="history-item-name">' + app.name + '</div>' +
+                    '<div class="history-item-detail">' + app.date + ' às ' + app.time + ' | ' + app.services + ' | R$ ' + Number(app.total || 0).toFixed(2).replace('.', ',') + '</div></div>' +
+                    '<button class="btn-delete-small" onclick="deleteAppointment(\'' + app.id + '\')">Excluir</button></div>'
+                ).join('');
+
+                return '<div class="history-month"><div class="history-month-header"><span>' + monthNames[group.month - 1] + ' ' + group.year + '</span><span>' + group.apps.length + ' registros</span></div>' +
+                    '<div class="history-summary-row"><span>Cortes feitos</span><strong>' + doneApps.length + ' | R$ ' + doneTotal.toFixed(2).replace('.', ',') + '</strong></div>' +
+                    '<div class="history-summary-row"><span>Pendentes</span><strong>' + pendingApps.length + ' | R$ ' + pendingTotal.toFixed(2).replace('.', ',') + '</strong></div>' +
+                    (items ? '<div class="history-items">' + items + '</div>' : '') + '</div>';
+            }).join('');
+        }
+
+        function refreshAppointments() {
+            getAppointmentsFS().then(() => {
+                renderAdminTable();
+                showToast('Atualizado!', 'Lista de agendamentos atualizada.');
+            });
+        }
+
+
+
+        function copyBarberPix() {
+            const pixKey = '38999390267';
+            navigator.clipboard.writeText(pixKey).then(() => {
+                showToast('Chave Pix copiada', 'A chave Pix do barbeiro foi copiada para a área de transferência.');
+            }).catch(() => {
+                showToast('Falha ao copiar', 'Não foi possível copiar a chave Pix. Copie manualmente.');
+            });
+        }
+
+        // Sincroniza entre abas/janelas do navegador
+        window.addEventListener('storage', function (e) {
+            if (e.key === 'barbearia_appointments') {
+                getAppointmentsFS().then(() => {
+                    renderAdminTable();
+                    renderTimeSlots();
+                    updateSummary();
+                });
+            }
+            if (e.key === 'barbearia_availability') {
+                getAvailabilityFS().then(() => {
+                    renderTimeSlots();
+                    renderAvailabilityEditor();
+                });
+            }
+        });
 
         function showToast(title, message) {
             document.getElementById('toast-title').textContent = title;
@@ -2615,52 +3133,13 @@
             setTimeout(() => toast.classList.remove('active'), 4000);
         }
 
-        function formatPhoneQuery(input) {
-            let value = input.value.replace(/\D/g, '');
-            if (value.length > 11) value = value.slice(0, 11);
-            if (value.length > 10) {
-                input.value = '(' + value.slice(0, 2) + ') ' + value.slice(2, 7) + '-' + value.slice(7);
-            } else if (value.length > 6) {
-                input.value = '(' + value.slice(0, 2) + ') ' + value.slice(2, 6) + '-' + value.slice(6);
-            } else if (value.length > 2) {
-                input.value = '(' + value.slice(0, 2) + ') ' + value.slice(2);
-            } else if (value.length > 0) {
-                input.value = '(' + value;
-            }
-        }
-
-        async function consultarAgendamentosCliente() {
-            const phone = document.getElementById('client-query-phone').value.trim();
-            if (phone.length < 14) {
-                showToast('Telefone inválido', 'Digite um número de WhatsApp válido com DDD.');
-                return;
-            }
-            await getAppointmentsFS();
-            const userAppointments = _appointmentsCache.filter(a => a.phone === phone).sort((a, b) => {
-                const dateA = a.date.split('/').reverse().join('-') + 'T' + a.time;
-                const dateB = b.date.split('/').reverse().join('-') + 'T' + b.time;
-                return new Date(dateA) - new Date(dateB);
-            });
-            const container = document.getElementById('client-appointments-result');
-            if (userAppointments.length === 0) {
-                container.innerHTML = '<div class="empty-state" style="padding: 40px 20px;"><div class="empty-state-icon">-</div><p>Nenhum agendamento encontrado para este número.</p></div>';
-                return;
-            }
-            container.innerHTML = '<table class="client-table"><thead><tr><th>Data</th><th>Horário</th><th>Serviços</th><th>Total</th><th>Status</th></tr></thead><tbody>' +
-                userAppointments.map(a => {
-                    const isDone = isCompletedId(a.id);
-                    return '<tr class="' + (isDone ? 'completed-row' : '') + '">' +
-                        '<td>' + a.date + '</td>' +
-                        '<td>' + a.time + '</td>' +
-                        '<td>' + a.services + '</td>' +
-                        '<td style="color: var(--accent); font-weight: 600;">R$ ' + a.total.toFixed(2).replace('.', ',') + '</td>' +
-                        '<td><span class="status ' + getStatusClass(a.status) + '">' + a.status + '</span></td>' +
-                        '</tr>';
-                }).join('') +
-                '</tbody></table>';
-        }
-
+        document.addEventListener('DOMContentLoaded', function () {
+            setTimeout(() => {
+                openLoginModal();
+            }, 300);
+        });
     </script>
 
 </body>
+
 </html>
