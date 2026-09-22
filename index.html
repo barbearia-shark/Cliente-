@@ -11,7 +11,6 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
         rel="stylesheet">
     <style>
-        
         :root {
             --bg-dark: #0a1628;
             --bg-card: rgba(10, 22, 40, 0.92);
@@ -1765,9 +1764,9 @@
                     <div class="service-item">
                         <div class="service-info">
                             <h4>Progressiva (sem formol)</h4>
-                            <p>Alisamento</p>
+                            <p>Alisamento natural e saudável</p>
                         </div>
-                        <div class="service-price">R$ 37,00</div>
+                        <div class="service-price">R$ 30,00</div>
                     </div>
                 </div>
             </div>
@@ -1880,7 +1879,7 @@
                                         <div class="checkbox-box"></div><span class="service-checkbox-name">Progressiva
                                             (sem formol)</span>
                                     </div>
-                                    <span class="service-checkbox-price">R$ 37,00</span>
+                                    <span class="service-checkbox-price">R$ 30,00</span>
                                 </div>
                             </div>
                         </div>
@@ -1986,11 +1985,8 @@
         let selectedServices = [];
         let barberAvailability = {};
         let _appointmentsCache = [];
-        let _firebaseInitialized = false;
-        let _locallyCompletedIds = [];
         let _completedIdsFromFirebase = [];
-        let _isProcessingQueue = false;
-        let _completionQueue = [];
+        let _firebaseInitialized = false;
 
         const timeSlots = [
             '09:00', '09:30', '10:00', '10:30', '11:00',
@@ -2006,8 +2002,9 @@
             return window._firebaseReady && window._db;
         }
 
+        // ========== AGENDAMENTOS (somente Firebase) ==========
         async function getAppointmentsFS() {
-            if (!isFirebaseReady()) return getAppointmentsLS();
+            if (!isFirebaseReady()) return [];
             try {
                 const col = window._collection(window._db, 'appointments');
                 const snap = await window._getDocs(col);
@@ -2016,66 +2013,45 @@
                 _appointmentsCache = list;
                 return list;
             } catch (e) {
-                return getAppointmentsLS();
+                console.warn('Erro ao buscar agendamentos:', e);
+                return [];
             }
         }
 
         async function addAppointmentFS(data) {
-            if (!isFirebaseReady()) {
-                const list = getAppointmentsLS();
-                list.push(data);
-                localStorage.setItem('barbearia_appointments', JSON.stringify(list));
-                return data;
-            }
+            if (!isFirebaseReady()) return data;
             try {
                 const col = window._collection(window._db, 'appointments');
                 const ref = await window._addDoc(col, data);
                 data.id = ref.id;
                 return data;
             } catch (e) {
-                const list = getAppointmentsLS();
-                list.push(data);
-                localStorage.setItem('barbearia_appointments', JSON.stringify(list));
+                console.warn('Erro ao adicionar agendamento:', e);
                 return data;
             }
         }
 
         async function updateAppointmentStatusFS(id, status) {
-            if (!isFirebaseReady()) {
-                const list = getAppointmentsLS();
-                const a = list.find(x => x.id === id);
-                if (a) { a.status = status; localStorage.setItem('barbearia_appointments', JSON.stringify(list)); }
-                return;
-            }
+            if (!isFirebaseReady()) return;
             try {
                 await window._updateDoc(window._doc(window._db, 'appointments', String(id)), { status: status });
             } catch (e) {
-                const list = getAppointmentsLS();
-                const a = list.find(x => x.id === id);
-                if (a) { a.status = status; localStorage.setItem('barbearia_appointments', JSON.stringify(list)); }
+                console.warn('Erro ao atualizar status:', e);
             }
         }
 
         async function deleteAppointmentFS(id) {
-            if (!isFirebaseReady()) {
-                let list = getAppointmentsLS();
-                list = list.filter(a => a.id !== id);
-                localStorage.setItem('barbearia_appointments', JSON.stringify(list));
-                return;
-            }
+            if (!isFirebaseReady()) return;
             try {
                 await window._deleteDoc(window._doc(window._db, 'appointments', String(id)));
             } catch (e) {
-                let list = getAppointmentsLS();
-                list = list.filter(a => a.id !== id);
-                localStorage.setItem('barbearia_appointments', JSON.stringify(list));
+                console.warn('Erro ao excluir agendamento:', e);
             }
         }
 
-
-
+        // ========== DISPONIBILIDADE ==========
         async function getAvailabilityFS() {
-            if (!isFirebaseReady()) return getAvailabilityLS();
+            if (!isFirebaseReady()) return { domingo: [], segunda: [], terca: [], quarta: [], quinta: [], sexta: [], sabado: [] };
             try {
                 const ref = window._doc(window._db, 'availability', 'schedule');
                 const snap = await window._getDoc(ref);
@@ -2083,24 +2059,40 @@
                     barberAvailability = snap.data();
                     return barberAvailability;
                 }
-                return getAvailabilityLS();
+                return { domingo: [], segunda: [], terca: [], quarta: [], quinta: [], sexta: [], sabado: [] };
             } catch (e) {
-                return getAvailabilityLS();
+                return { domingo: [], segunda: [], terca: [], quarta: [], quinta: [], sexta: [], sabado: [] };
             }
         }
 
-        async function saveAvailabilityFS(data) {
-            if (!isFirebaseReady()) {
-                localStorage.setItem('barbearia_availability', JSON.stringify(data));
-                return;
-            }
+        // ========== CONFIG ==========
+        async function getConfigFS() {
+            if (!isFirebaseReady()) return { whatsappEnabled: true };
             try {
-                await window._setDoc(window._doc(window._db, 'availability', 'schedule'), data);
+                const ref = window._doc(window._db, 'settings', 'config');
+                const snap = await window._getDoc(ref);
+                if (snap.exists()) return snap.data();
+                return { whatsappEnabled: true };
             } catch (e) {
-                localStorage.setItem('barbearia_availability', JSON.stringify(data));
+                return { whatsappEnabled: true };
             }
         }
 
+        // ========== COMPLETED (Firebase) ==========
+        async function getCompletedAppointmentsFS() {
+            if (!isFirebaseReady()) return [];
+            try {
+                const col = window._collection(window._db, 'completedAppointments');
+                const snap = await window._getDocs(col);
+                const list = [];
+                snap.forEach(d => list.push(d.id));
+                return list;
+            } catch (e) {
+                return [];
+            }
+        }
+
+        // ========== LISTENERS (tempo real) ==========
         function listenAppointments(callback) {
             if (!isFirebaseReady()) return;
             const col = window._collection(window._db, 'appointments');
@@ -2123,72 +2115,6 @@
             });
         }
 
-        function getAppointmentsLS() {
-            const data = localStorage.getItem('barbearia_appointments');
-            const list = data ? JSON.parse(data) : [];
-            _appointmentsCache = list;
-            return list;
-        }
-
-        function getAvailabilityLS() {
-            const data = localStorage.getItem('barbearia_availability');
-            const defaults = { domingo: [], segunda: [], terca: [], quarta: [], quinta: [], sexta: [], sabado: [] };
-            return data ? JSON.parse(data) : defaults;
-        }
-
-        function getLocallyCompletedIds() {
-            try {
-                const data = localStorage.getItem('barbearia_completed_ids');
-                return data ? JSON.parse(data) : [];
-            } catch (e) {
-                return [];
-            }
-        }
-
-        function saveLocallyCompletedIds() {
-            localStorage.setItem('barbearia_completed_ids', JSON.stringify(_locallyCompletedIds));
-        }
-
-        function addLocallyCompletedId(id) {
-            if (!_locallyCompletedIds.includes(id)) {
-                _locallyCompletedIds.push(id);
-            }
-            saveLocallyCompletedIds();
-        }
-
-        function removeLocallyCompletedId(id) {
-            _locallyCompletedIds = _locallyCompletedIds.filter(x => x !== id);
-            saveLocallyCompletedIds();
-        }
-
-        // ========== COMPLETED APPOINTMENTS (Firebase) ==========
-        async function getCompletedAppointmentsFS() {
-            if (!isFirebaseReady()) return [];
-            try {
-                const col = window._collection(window._db, 'completedAppointments');
-                const snap = await window._getDocs(col);
-                const list = [];
-                snap.forEach(d => list.push(d.id));
-                return list;
-            } catch (e) {
-                console.warn('Erro ao buscar completedAppointments:', e);
-                return [];
-            }
-        }
-
-        async function addCompletedAppointmentFS(id, data) {
-            if (!isFirebaseReady()) return;
-            try {
-                await window._setDoc(window._doc(window._db, 'completedAppointments', String(id)), {
-                    appointmentId: id,
-                    completedAt: new Date().toISOString(),
-                    ...data
-                });
-            } catch (e) {
-                console.warn('Erro ao salvar completedAppointment:', e);
-            }
-        }
-
         function listenCompletedAppointments(callback) {
             if (!isFirebaseReady()) return;
             const col = window._collection(window._db, 'completedAppointments');
@@ -2196,68 +2122,16 @@
                 const list = [];
                 snap.forEach(d => list.push(d.id));
                 _completedIdsFromFirebase = list;
-                // Mescla com a lista local
-                let changed = false;
-                list.forEach(id => {
-                    if (!_locallyCompletedIds.includes(id)) {
-                        _locallyCompletedIds.push(id);
-                        changed = true;
-                    }
-                });
-                if (changed) {
-                    saveLocallyCompletedIds();
-                    renderTimeSlots();
-                    updateSummary();
-                }
                 if (callback) callback(list);
             });
         }
 
         function isCompletedId(id) {
-            return _locallyCompletedIds.includes(id) || _completedIdsFromFirebase.includes(id);
+            return _completedIdsFromFirebase.includes(String(id));
         }
 
-        // ========== FILA DE PROCESSAMENTO ==========
-        async function processCompletionQueue() {
-            if (_isProcessingQueue || _completionQueue.length === 0) return;
-            _isProcessingQueue = true;
-            while (_completionQueue.length > 0) {
-                const task = _completionQueue.shift();
-                try {
-                    await task();
-                } catch (e) {
-                    console.warn('Erro ao processar tarefa da fila:', e);
-                }
-            }
-            _isProcessingQueue = false;
-        }
-
-        function queueCompletion(task) {
-            _completionQueue.push(task);
-            processCompletionQueue();
-        }
-
+        // ========== INIT ==========
         async function initApp() {
-            _locallyCompletedIds = getLocallyCompletedIds();
-
-            // Busca concluídos do Firebase ao iniciar
-            if (isFirebaseReady()) {
-                try {
-                    const firebaseCompleted = await getCompletedAppointmentsFS();
-                    _completedIdsFromFirebase = firebaseCompleted;
-                    let changed = false;
-                    firebaseCompleted.forEach(id => {
-                        if (!_locallyCompletedIds.includes(id)) {
-                            _locallyCompletedIds.push(id);
-                            changed = true;
-                        }
-                    });
-                    if (changed) saveLocallyCompletedIds();
-                } catch (e) {
-                    console.warn('Erro ao sincronizar concluídos do Firebase:', e);
-                }
-            }
-
             barberAvailability = await getAvailabilityFS();
             const config = await getConfigFS();
             if (config && typeof config.whatsappEnabled === 'boolean') {
@@ -2269,12 +2143,8 @@
             updateSummary();
 
             if (isFirebaseReady()) {
-                listenAppointments(() => {
-                    renderTimeSlots();
-                });
-                listenAvailability(() => {
-                    renderTimeSlots();
-                });
+                listenAppointments(() => { renderTimeSlots(); });
+                listenAvailability(() => { renderTimeSlots(); });
                 listenCompletedAppointments(() => {
                     renderTimeSlots();
                     updateSummary();
@@ -2363,12 +2233,8 @@
                 div.textContent = time;
                 const isBooked = bookedTimes.includes(time);
                 const isSelected = selectedTime === time;
-                if (isBooked) {
-                    div.classList.add('disabled');
-                }
-                if (isSelected) {
-                    div.classList.add('selected');
-                }
+                if (isBooked) div.classList.add('disabled');
+                if (isSelected) div.classList.add('selected');
                 div.onclick = function () {
                     if (isBooked) {
                         showToast('Horário indisponível', 'Este horário já foi reservado. Escolha outro horário.');
@@ -2389,7 +2255,6 @@
 
         function isAppointmentActive(appointment) {
             if (!appointment || !appointment.status) return false;
-            // Se o ID está na lista de concluídos (local ou Firebase), considera inativo
             if (isCompletedId(appointment.id)) return false;
             const status = String(appointment.status).trim();
             return status !== 'Concluído';
@@ -2525,9 +2390,7 @@
         }
 
         function sendWhatsAppNotification(appointment) {
-            if (!BARBER_WHATSAPP || !whatsappEnabled) {
-                return;
-            }
+            if (!BARBER_WHATSAPP || !whatsappEnabled) return;
             const message = encodeURIComponent(
                 'NOVO AGENDAMENTO — BARBEARIA SHARK\n\n' +
                 'Cliente: ' + appointment.name + '\n' +
@@ -2539,50 +2402,6 @@
                 'Agendado em: ' + new Date().toLocaleString('pt-BR')
             );
             window.open('https://wa.me/' + BARBER_WHATSAPP + '?text=' + message, '_blank');
-        }
-
-        function getConfigLS() {
-            const data = localStorage.getItem('barbearia_config');
-            return data ? JSON.parse(data) : { whatsappEnabled: true };
-        }
-
-        async function getConfigFS() {
-            if (!isFirebaseReady()) return getConfigLS();
-            try {
-                const ref = window._doc(window._db, 'settings', 'config');
-                const snap = await window._getDoc(ref);
-                if (snap.exists()) return snap.data();
-                return getConfigLS();
-            } catch (e) {
-                return getConfigLS();
-            }
-        }
-
-        function saveConfigLS(config) {
-            localStorage.setItem('barbearia_config', JSON.stringify(config));
-        }
-
-        async function saveConfigFS(config) {
-            if (!isFirebaseReady()) {
-                saveConfigLS(config);
-                return;
-            }
-            try {
-                await window._setDoc(window._doc(window._db, 'settings', 'config'), config);
-            } catch (e) {
-                saveConfigLS(config);
-            }
-        }
-
-        async function saveConfig(config) {
-            saveConfigLS(config);
-            await saveConfigFS(config);
-        }
-
-        async function toggleWhatsAppEnabled(input) {
-            whatsappEnabled = input.checked;
-            await saveConfig({ whatsappEnabled });
-            showToast('WhatsApp atualizado', whatsappEnabled ? 'Notificações por WhatsApp ativadas.' : 'Notificações por WhatsApp desativadas.');
         }
 
         function formatDate(date) {
@@ -2639,13 +2458,16 @@
                         '<td>' + a.date + '</td>' +
                         '<td>' + a.time + '</td>' +
                         '<td>' + a.services + '</td>' +
-                        '<td style="color: var(--accent); font-weight: 600;">R$ ' + a.total.toFixed(2).replace('.', ',') + '</td>' +
-                        '<td><span class="status ' + getStatusClass(a.status) + '">' + a.status + '</span></td>' +
+                        '<td style="color: var(--accent); font-weight: 600;">R$ ' + Number(a.total || 0).toFixed(2).replace('.', ',') + '</td>' +
+                        '<td><span class="status ' + (isDone ? 'status-concluido' : getStatusClass(a.status)) + '">' + (isDone ? 'Concluído' : a.status) + '</span></td>' +
                         '</tr>';
                 }).join('') +
                 '</tbody></table>';
         }
 
+        function getStatusClass(status) {
+            return 'status-' + String(status).toLowerCase().normalize('NFD').replace(/[^a-z0-9 ]/g, '').replace(/\s+/g, '-');
+        }
     </script>
 
 </body>
